@@ -1,0 +1,15 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+libjgroupsig,com.ibm.jgroupsig,Identity,59,0,0,0,18,0,10,0,10,0
+libjgroupsig,com.ibm.jgroupsig,PS16,369,0,12,0,97,0,39,0,33,0
+libjgroupsig,com.ibm.jgroupsig,BlindSignature,74,0,0,0,20,0,9,0,9,0
+libjgroupsig,com.ibm.jgroupsig,GrpKey,70,0,0,0,19,0,8,0,8,0
+libjgroupsig,com.ibm.jgroupsig,Signature,70,0,0,0,19,0,8,0,8,0
+libjgroupsig,com.ibm.jgroupsig,IndexProof,89,0,0,0,23,0,9,0,9,0
+libjgroupsig,com.ibm.jgroupsig,GL19,620,0,42,0,151,0,57,0,36,0
+libjgroupsig,com.ibm.jgroupsig,Proof,70,0,0,0,19,0,8,0,8,0
+libjgroupsig,com.ibm.jgroupsig,BldKey,103,0,0,0,28,0,12,0,12,0
+libjgroupsig,com.ibm.jgroupsig,Gml,70,0,0,0,19,0,8,0,8,0
+libjgroupsig,com.ibm.jgroupsig,MgrKey,70,0,0,0,19,0,8,0,8,0
+libjgroupsig,com.ibm.jgroupsig,Util,48,0,0,0,13,0,2,0,2,0
+libjgroupsig,com.ibm.jgroupsig,MemKey,70,0,0,0,19,0,8,0,8,0
+libjgroupsig,com.ibm.jgroupsig,BBS04,350,0,10,0,91,0,38,0,33,0

@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject/src/asm/bint-x64-amd64.S
+
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject/src/asm/x86-64.S
+

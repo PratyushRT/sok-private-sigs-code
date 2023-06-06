@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Identity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libjgroupsig</a> &gt; <a href="index.source.html" class="el_package">com.ibm.jgroupsig</a> &gt; <span class="el_source">Identity.java</span></div><h1>Identity.java</h1><pre class="source lang-java linenums">package com.ibm.jgroupsig;
+
+/**
+ * Class for identities in the groupsig package.
+ * 
+ * Offers several interfaces to create and operate with identities.
+ * It is part of the groupsig package.
+ */
+public class Identity {
+
+    /**
+     * The GS scheme code.
+     */        
+<span class="nc" id="L14">    private int code = -1;</span>
+
+    /**
+     * The internal JNI pointer.
+     */        
+<span class="nc" id="L19">    private long ptr = 0;</span>
+
+    /**
+     * The message associated to this identity. Can be null.
+     */        
+    private byte[] msg;
+
+<span class="nc" id="L26">    public Identity() {}</span>
+
+    /**
+     * Creates a new instance of Identity (pseudonym) for the given scheme.
+     *
+     * @param code The code identifying the GS scheme.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */       
+    public Identity(int code)
+	throws IllegalArgumentException,
+	       Exception
+<span class="nc" id="L38">    {</span>
+<span class="nc" id="L39">	this.code = code;</span>
+<span class="nc" id="L40">	this.ptr = groupsig_identityInit(code);</span>
+<span class="nc" id="L41">	this.msg = null;</span>
+<span class="nc" id="L42">	return;</span>
+    }
+
+    /**
+     * Frees the memory allocated for the current Identity.
+     */     
+    protected void finalize() {
+<span class="nc" id="L49">	groupsig_identityFree(this.ptr);</span>
+<span class="nc" id="L50">    }</span>
+
+    /**
+     * Produces a printable string corresponding to the pseudonym in this Identity.
+     *
+     * @return A base64-encoded string.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */    
+    public String toStr()
+	throws IllegalArgumentException,
+	       Exception
+    {
+<span class="nc" id="L63">	return groupsig_identityToString(this.ptr);</span>
+    }
+
+    /**
+     * Overloaded equality operator.
+     *
+     * The comparison does not consider the msg attribute, even when present.
+     *
+     * @return True if both identities are the same, false if not.
+     */
+    public boolean equals(Identity id)
+	throws Exception {
+<span class="nc" id="L75">	return this.toStr().equals(id.toStr());</span>
+    }
+
+    /**
+     * For identities that also have an associated message, sets the message to 
+     * the given byte array.
+     *
+     * @param msg The message to associate to the current identity.
+     */    
+    public void setMsg(byte[] msg) {
+<span class="nc" id="L85">	this.msg = msg;</span>
+<span class="nc" id="L86">    }</span>
+
+    /**
+     * For identities that also have an associated message, returns the message
+     * associated to the current identity.
+     *
+     * @return The message associated to the current identity, or null if there 
+     *  is none.
+     */        
+    public byte[] getMsg() {
+<span class="nc" id="L96">	return this.msg;</span>
+    }
+
+    /**
+     * Returns the pointer of the internal JNI object for this Identity.
+     * 
+     * @return A pointer to the internal JNI object for this Identity.
+     */      
+<span class="nc" id="L104">    public long getObject() { return ptr; }</span>
+
+    /**
+     * Returns the code for this identity's scheme.
+     *
+     * @return The identity scheme.
+     */
+<span class="nc" id="L111">    public int getCode() { return this.code; }        </span>
+
+<span class="nc" id="L113">    static { System.loadLibrary(&quot;jnigroupsig&quot;); }</span>
+
+    private static native long groupsig_identityInit(int code);
+    private static native int groupsig_identityFree(long ptr);
+    private static native String groupsig_identityToString(long ptr);
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

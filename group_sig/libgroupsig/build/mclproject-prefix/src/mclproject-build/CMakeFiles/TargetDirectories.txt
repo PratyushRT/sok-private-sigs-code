@@ -1,0 +1,11 @@
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/mcl.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/mcl_st.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/mclbn256.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/mclbn384.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/mclbn384_256.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/edit_cache.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/rebuild_cache.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/list_install_components.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/install.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/install/local.dir
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/CMakeFiles/install/strip.dir

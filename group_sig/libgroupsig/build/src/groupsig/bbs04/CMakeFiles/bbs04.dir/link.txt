@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../../lib/libbbs04.a CMakeFiles/bbs04.dir/grp_key.c.o CMakeFiles/bbs04.dir/mgr_key.c.o CMakeFiles/bbs04.dir/mem_key.c.o CMakeFiles/bbs04.dir/signature.c.o CMakeFiles/bbs04.dir/setup.c.o CMakeFiles/bbs04.dir/join_mem.c.o CMakeFiles/bbs04.dir/join_mgr.c.o CMakeFiles/bbs04.dir/sign.c.o CMakeFiles/bbs04.dir/verify.c.o CMakeFiles/bbs04.dir/open.c.o CMakeFiles/bbs04.dir/gml.c.o
+/usr/bin/ranlib ../../../lib/libbbs04.a

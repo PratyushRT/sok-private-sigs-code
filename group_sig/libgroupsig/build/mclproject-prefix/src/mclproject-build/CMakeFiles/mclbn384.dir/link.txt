@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -fPIC -shared -Wl,-soname,libmclbn384.so.1 -o lib/libmclbn384.so.1.74 CMakeFiles/mclbn384.dir/src/bn_c384.cpp.o  -Wl,-rpath,/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/lib: lib/libmcl.so.1.74 

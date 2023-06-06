@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libmisc.a CMakeFiles/misc.dir/misc.c.o CMakeFiles/misc.dir/profile.c.o
+/usr/bin/ranlib ../../lib/libmisc.a

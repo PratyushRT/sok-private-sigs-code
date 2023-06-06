@@ -1,0 +1,13 @@
+# Target labels
+ mclproject
+# Source files and their labels
+/home/alishahc/libgroupsig/build/CMakeFiles/mclproject
+/home/alishahc/libgroupsig/build/CMakeFiles/mclproject.rule
+/home/alishahc/libgroupsig/build/CMakeFiles/mclproject-complete.rule
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-build.rule
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-configure.rule
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-download.rule
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-install.rule
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-mkdir.rule
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-patch.rule
+/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-update.rule

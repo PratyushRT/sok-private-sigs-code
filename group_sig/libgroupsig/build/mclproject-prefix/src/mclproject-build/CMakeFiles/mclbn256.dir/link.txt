@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -fPIC -shared -Wl,-soname,libmclbn256.so.1 -o lib/libmclbn256.so.1.74 CMakeFiles/mclbn256.dir/src/bn_c256.cpp.o  -Wl,-rpath,/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-build/lib: lib/libmcl.so.1.74 

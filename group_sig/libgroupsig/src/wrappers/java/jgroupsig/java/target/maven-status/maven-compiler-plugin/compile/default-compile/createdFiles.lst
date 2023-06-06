@@ -1,0 +1,15 @@
+com/ibm/jgroupsig/IndexProof.class
+com/ibm/jgroupsig/BBS04.class
+com/ibm/jgroupsig/Signature.class
+com/ibm/jgroupsig/BldKey.class
+com/ibm/jgroupsig/GS.class
+com/ibm/jgroupsig/PS16.class
+com/ibm/jgroupsig/Gml.class
+com/ibm/jgroupsig/BlindSignature.class
+com/ibm/jgroupsig/Util.class
+com/ibm/jgroupsig/GrpKey.class
+com/ibm/jgroupsig/MemKey.class
+com/ibm/jgroupsig/MgrKey.class
+com/ibm/jgroupsig/GL19.class
+com/ibm/jgroupsig/Proof.class
+com/ibm/jgroupsig/Identity.class

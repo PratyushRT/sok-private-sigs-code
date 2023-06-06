@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../../lib/libps16.a CMakeFiles/ps16.dir/grp_key.c.o CMakeFiles/ps16.dir/mgr_key.c.o CMakeFiles/ps16.dir/mem_key.c.o CMakeFiles/ps16.dir/signature.c.o CMakeFiles/ps16.dir/setup.c.o CMakeFiles/ps16.dir/join_mem.c.o CMakeFiles/ps16.dir/join_mgr.c.o CMakeFiles/ps16.dir/sign.c.o CMakeFiles/ps16.dir/verify.c.o CMakeFiles/ps16.dir/open.c.o CMakeFiles/ps16.dir/open_verify.c.o CMakeFiles/ps16.dir/gml.c.o CMakeFiles/ps16.dir/proof.c.o
+/usr/bin/ranlib ../../../lib/libps16.a

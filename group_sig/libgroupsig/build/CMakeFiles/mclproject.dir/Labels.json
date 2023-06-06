@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/alishahc/libgroupsig/build/CMakeFiles/mclproject"
+		},
+		{
+			"file" : "/home/alishahc/libgroupsig/build/CMakeFiles/mclproject.rule"
+		},
+		{
+			"file" : "/home/alishahc/libgroupsig/build/CMakeFiles/mclproject-complete.rule"
+		},
+		{
+			"file" : "/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-build.rule"
+		},
+		{
+			"file" : "/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-configure.rule"
+		},
+		{
+			"file" : "/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-download.rule"
+		},
+		{
+			"file" : "/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-install.rule"
+		},
+		{
+			"file" : "/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-mkdir.rule"
+		},
+		{
+			"file" : "/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-patch.rule"
+		},
+		{
+			"file" : "/home/alishahc/libgroupsig/build/mclproject-prefix/src/mclproject-stamp/mclproject-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"mclproject"
+		],
+		"name" : "mclproject"
+	}
+}

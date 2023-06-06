@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../../lib/libklap20.a CMakeFiles/klap20.dir/grp_key.c.o CMakeFiles/klap20.dir/mgr_key.c.o CMakeFiles/klap20.dir/mem_key.c.o CMakeFiles/klap20.dir/signature.c.o CMakeFiles/klap20.dir/setup.c.o CMakeFiles/klap20.dir/join_mem.c.o CMakeFiles/klap20.dir/join_mgr.c.o CMakeFiles/klap20.dir/sign.c.o CMakeFiles/klap20.dir/verify.c.o CMakeFiles/klap20.dir/open.c.o CMakeFiles/klap20.dir/open_verify.c.o CMakeFiles/klap20.dir/gml.c.o CMakeFiles/klap20.dir/spk.c.o CMakeFiles/klap20.dir/proof.c.o
+/usr/bin/ranlib ../../../lib/libklap20.a

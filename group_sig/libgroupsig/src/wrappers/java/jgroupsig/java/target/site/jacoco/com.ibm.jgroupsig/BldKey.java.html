@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BldKey.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libjgroupsig</a> &gt; <a href="index.source.html" class="el_package">com.ibm.jgroupsig</a> &gt; <span class="el_source">BldKey.java</span></div><h1>BldKey.java</h1><pre class="source lang-java linenums">package com.ibm.jgroupsig;
+
+import java.util.Base64;
+
+/**
+ * Class for Blinding Keys in the groupsig package.
+ * 
+ * Offers several interfaces to create and operate with blinding keys.
+ * It is part of the groupsig package.
+ */
+public class BldKey {
+
+    /**
+     * The GS scheme code.
+     */    
+<span class="nc" id="L16">    private int code = -1;</span>
+
+    /**
+     * The internal JNI pointer.
+     */    
+<span class="nc" id="L21">    private long ptr = 0;</span>
+
+<span class="nc" id="L23">    public BldKey() {}</span>
+
+    /**
+     * Creates a new instance of blinding key for the given scheme.
+     *
+     * @param code The code identifying the GS scheme.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */   
+    public BldKey(int code)
+	throws IllegalArgumentException,
+	       Exception
+<span class="nc" id="L35">    {</span>
+<span class="nc" id="L36">	this.code = code;</span>
+<span class="nc" id="L37">	this.ptr = groupsig_bldKeyInit(code);</span>
+<span class="nc" id="L38">	return;</span>
+    }
+
+    /**
+     * Creates a new instance of blinding key for the given scheme, importing
+     * the key material from the given string. Works both for full blinding keys
+     * (including public and private parts) and public blinding keys.
+     *
+     * @param code The code identifying the GS scheme.
+     * @param str A string containing a previously exported blinding key.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    public BldKey(int code, String str)
+	throws IllegalArgumentException,
+	       Exception	
+<span class="nc" id="L54">    {</span>
+<span class="nc" id="L55">	byte[] b = Base64.getMimeDecoder().decode(str);</span>
+<span class="nc" id="L56">	this.ptr = groupsig_bldKeyImport(code, b, b.length);</span>
+<span class="nc" id="L57">	this.code = code;</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * Frees the memory allocated for the current blinding key instance.
+     */   
+    protected void finalize() {
+<span class="nc" id="L64">	groupsig_bldKeyFree(this.ptr);</span>
+<span class="nc" id="L65">    }</span>
+
+    /**
+     * Initializes a new random blinding key for the given group and sets it to 
+     * a random value.
+     *
+     * @param grpKey The group key (contains public parameters of the GS scheme).
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */    
+    public static BldKey getRandom(int code, GrpKey grpKey)
+	throws IllegalArgumentException,
+	       Exception
+    {
+<span class="nc" id="L79">	BldKey key = new BldKey();</span>
+<span class="nc" id="L80">	long ptr = groupsig_bldKeyRandom(code, grpKey.getObject());</span>
+<span class="nc" id="L81">	key.setObject(ptr);</span>
+<span class="nc" id="L82">	key.setCode(code);</span>
+<span class="nc" id="L83">	return key;</span>
+    }
+
+    /**
+     * Exports this instance of a blinding key (currently, to a base64 string).
+     * Exports both the public and private parts of the key.
+     *
+     * @return A base64-encoded string.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */    
+    public String export()
+	throws IllegalArgumentException,
+	       Exception	
+    {
+<span class="nc" id="L98">	byte[] b = groupsig_bldKeyExport(this.ptr);</span>
+<span class="nc" id="L99">	return Base64.getMimeEncoder().encodeToString(b);</span>
+    }
+
+    /**
+     * Exports the public part of this instance of a blinding key (currently, 
+     * to a base64 string).
+     *
+     * @return A base64-encoded string.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */    
+    public String exportPub()
+	throws IllegalArgumentException,
+	       Exception	
+    {
+<span class="nc" id="L114">	byte[] b = groupsig_bldKeyExportPub(this.ptr);</span>
+<span class="nc" id="L115">	return Base64.getMimeEncoder().encodeToString(b);</span>
+    }
+    
+
+    /**
+     * Returns the pointer of the internal JNI object for this key.
+     * 
+     * @return A pointer to the internal JNI object for this key.
+     */
+<span class="nc" id="L124">    public long getObject() { return ptr; }</span>
+
+    /**
+     * Sets the pointer to the internal JNI object for this key.
+     * @param The pointer to the internal JNI object.
+     */
+<span class="nc" id="L130">    public void setObject(long ptr) { this.ptr = ptr; }</span>
+
+    /**
+     * Returns the code for this key's scheme.
+     *
+     * @return The key scheme.
+     */
+<span class="nc" id="L137">    public int getCode() { return this.code; }</span>
+
+    /**
+     * Sets the current objects code to the given code.
+     * @param code The code to set.
+     */
+<span class="nc" id="L143">    public void setCode(int code) { this.code = code; }</span>
+
+<span class="nc" id="L145">    static { System.loadLibrary(&quot;jnigroupsig&quot;); }</span>
+
+    private static native long groupsig_bldKeyInit(int code);
+    private static native int groupsig_bldKeyFree(long ptr);
+    private static native long groupsig_bldKeyRandom(int code,
+						     long grpKeyPtr);
+    private static native int groupsig_bldKeyGetCode(long ptr);
+    private static native byte[] groupsig_bldKeyExport(long ptr);
+    private static native byte[] groupsig_bldKeyExportPub(long ptr);
+    private static native long groupsig_bldKeyImport(int code, byte[] b, int size);
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

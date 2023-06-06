@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Gml.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libjgroupsig</a> &gt; <a href="index.source.html" class="el_package">com.ibm.jgroupsig</a> &gt; <span class="el_source">Gml.java</span></div><h1>Gml.java</h1><pre class="source lang-java linenums">package com.ibm.jgroupsig;
+
+import java.util.Base64;
+
+/**
+ * Class for Group Membership Lists (GMLs) in the groupsig package.
+ * 
+ * Offers several interfaces to create and operate with GMLs.
+ * It is part of the groupsig package.
+ */
+public class Gml {
+
+    /**
+     * The GS scheme code.
+     */
+<span class="nc" id="L16">    private int code = -1;</span>
+
+    /**
+     * The internal JNI pointer.
+     */
+<span class="nc" id="L21">    private long ptr = 0;</span>
+
+<span class="nc" id="L23">    public Gml() {}</span>
+
+    /**
+     * Creates a new instance of GML (Group Membership List) for the given 
+     * scheme.
+     *
+     * @param code The code identifying the GS scheme.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */       
+    public Gml(int code)
+	throws IllegalArgumentException,
+	       Exception
+<span class="nc" id="L36">    {</span>
+<span class="nc" id="L37">	this.code = code;</span>
+<span class="nc" id="L38">	this.ptr = groupsig_gmlInit(code);</span>
+<span class="nc" id="L39">	return;</span>
+    }
+
+    /**
+     * Creates a new instance of gml for the given scheme, importing
+     * the gml data from the given string.
+     *
+     * @param code The code identifying the GS scheme.
+     * @param str A string containing a previously exported gml.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */    
+    public Gml(int code, String str)
+	throws IllegalArgumentException,
+	       Exception
+<span class="nc" id="L54">    {</span>
+<span class="nc" id="L55">	byte[] b = Base64.getMimeDecoder().decode(str);</span>
+<span class="nc" id="L56">	this.ptr = groupsig_gmlImport(code, b, b.length); </span>
+<span class="nc" id="L57">	this.code = code;</span>
+<span class="nc" id="L58">    }        </span>
+
+    /**
+     * Exports this instance of a GML (currently, to a base64 string).
+     *
+     * @return A base64-encoded string.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */     
+    public String export()
+	throws IllegalArgumentException,
+	       Exception
+    {
+<span class="nc" id="L71">	byte[] b = groupsig_gmlExport(this.ptr);</span>
+<span class="nc" id="L72">	return Base64.getMimeEncoder().encodeToString(b);</span>
+    }     
+
+    /**
+     * Frees the memory allocated for the current gml instance.
+     */    
+    protected void finalize() {
+<span class="nc" id="L79">	groupsig_gmlFree(this.ptr);</span>
+<span class="nc" id="L80">    }</span>
+
+    /**
+     * Returns the pointer of the internal JNI object for this gml.
+     * 
+     * @return A pointer to the internal JNI object for this gml.
+     */    
+<span class="nc" id="L87">    public long getObject() { return ptr; }</span>
+
+    /**
+     * Returns the code for this GML's scheme.
+     *
+     * @return The GML scheme.
+     */
+<span class="nc" id="L94">    public int getCode() { return this.code; }      </span>
+    
+<span class="nc" id="L96">    static { System.loadLibrary(&quot;jnigroupsig&quot;); }</span>
+    
+    private static native long groupsig_gmlInit(int code);
+    private static native int groupsig_gmlFree(long ptr);
+    private static native byte[] groupsig_gmlExport(long ptr);
+    private static native long groupsig_gmlImport(int code, byte[] b, int size);    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libpbcext.a CMakeFiles/pbcext.dir/pbc_ext.c.o
+/usr/bin/ranlib ../../lib/libpbcext.a

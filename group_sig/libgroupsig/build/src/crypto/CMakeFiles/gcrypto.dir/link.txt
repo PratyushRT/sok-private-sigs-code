@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libgcrypto.a CMakeFiles/gcrypto.dir/spk.c.o CMakeFiles/gcrypto.dir/prf.c.o
+/usr/bin/ranlib ../../lib/libgcrypto.a

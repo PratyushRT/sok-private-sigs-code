@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libbig.a CMakeFiles/big.dir/bigz.c.o
+/usr/bin/ranlib ../../lib/libbig.a

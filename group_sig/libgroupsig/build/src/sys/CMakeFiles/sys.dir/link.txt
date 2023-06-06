@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libsys.a CMakeFiles/sys.dir/mem.c.o CMakeFiles/sys.dir/sysenv.c.o
+/usr/bin/ranlib ../../lib/libsys.a

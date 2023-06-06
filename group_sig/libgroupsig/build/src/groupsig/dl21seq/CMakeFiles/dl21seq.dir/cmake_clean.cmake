@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "../../../lib/libdl21seq.a"
+  "../../../lib/libdl21seq.pdb"
+  "CMakeFiles/dl21seq.dir/grp_key.c.o"
+  "CMakeFiles/dl21seq.dir/grp_key.c.o.d"
+  "CMakeFiles/dl21seq.dir/identify.c.o"
+  "CMakeFiles/dl21seq.dir/identify.c.o.d"
+  "CMakeFiles/dl21seq.dir/identity.c.o"
+  "CMakeFiles/dl21seq.dir/identity.c.o.d"
+  "CMakeFiles/dl21seq.dir/join_mem.c.o"
+  "CMakeFiles/dl21seq.dir/join_mem.c.o.d"
+  "CMakeFiles/dl21seq.dir/join_mgr.c.o"
+  "CMakeFiles/dl21seq.dir/join_mgr.c.o.d"
+  "CMakeFiles/dl21seq.dir/link.c.o"
+  "CMakeFiles/dl21seq.dir/link.c.o.d"
+  "CMakeFiles/dl21seq.dir/mem_key.c.o"
+  "CMakeFiles/dl21seq.dir/mem_key.c.o.d"
+  "CMakeFiles/dl21seq.dir/mgr_key.c.o"
+  "CMakeFiles/dl21seq.dir/mgr_key.c.o.d"
+  "CMakeFiles/dl21seq.dir/proof.c.o"
+  "CMakeFiles/dl21seq.dir/proof.c.o.d"
+  "CMakeFiles/dl21seq.dir/seqlink.c.o"
+  "CMakeFiles/dl21seq.dir/seqlink.c.o.d"
+  "CMakeFiles/dl21seq.dir/setup.c.o"
+  "CMakeFiles/dl21seq.dir/setup.c.o.d"
+  "CMakeFiles/dl21seq.dir/sign.c.o"
+  "CMakeFiles/dl21seq.dir/sign.c.o.d"
+  "CMakeFiles/dl21seq.dir/signature.c.o"
+  "CMakeFiles/dl21seq.dir/signature.c.o.d"
+  "CMakeFiles/dl21seq.dir/verify.c.o"
+  "CMakeFiles/dl21seq.dir/verify.c.o.d"
+  "CMakeFiles/dl21seq.dir/verify_link.c.o"
+  "CMakeFiles/dl21seq.dir/verify_link.c.o.d"
+  "CMakeFiles/dl21seq.dir/verify_seqlink.c.o"
+  "CMakeFiles/dl21seq.dir/verify_seqlink.c.o.d"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/dl21seq.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

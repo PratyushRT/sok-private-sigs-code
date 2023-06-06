@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IndexProof.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libjgroupsig</a> &gt; <a href="index.source.html" class="el_package">com.ibm.jgroupsig</a> &gt; <span class="el_source">IndexProof.java</span></div><h1>IndexProof.java</h1><pre class="source lang-java linenums">package com.ibm.jgroupsig;
+
+/**
+ * Class for identities in the groupsig package.
+ * 
+ * Offers several interfaces to create and operate with identities.
+ * It is part of the groupsig package.
+ */
+public class IndexProof {
+
+    /**
+     * The GS scheme code.
+     */        
+<span class="nc" id="L14">    private int code = -1;</span>
+
+    /**
+     * The index of the signer within a GML.
+     */
+<span class="nc" id="L19">    private long index = -1;</span>
+
+    /**
+     * The proof object.
+     */        
+<span class="nc" id="L24">    private Proof proof = null;</span>
+
+<span class="nc" id="L26">    public IndexProof() {}</span>
+
+    /**
+     * Creates a new instance of IndexProof for the given scheme, wrapping
+     * the specified index and Proof object.
+     *
+     * @param index The index to add to the wrapper object.
+     * @param proof The proof to add to the wrapper object.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */       
+    public IndexProof(long index, Proof proof)
+	throws IllegalArgumentException,
+	       Exception
+<span class="nc" id="L40">    {</span>
+    
+<span class="nc" id="L42">	this.code = proof.getCode();</span>
+<span class="nc" id="L43">	this.index = index;</span>
+<span class="nc" id="L44">	this.proof = proof;</span>
+<span class="nc" id="L45">	return;</span>
+    }
+
+    /**
+     * Creates a new instance of IndexProof for the given scheme, using.
+     * the specified index and setting the internal proof to null.
+     *
+     * @param index The index to add to the wrapper object.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */       
+    public IndexProof(int code, long index)
+	throws IllegalArgumentException,
+	       Exception
+<span class="nc" id="L59">    {    </span>
+<span class="nc" id="L60">	this.code = code;</span>
+<span class="nc" id="L61">	this.index = index;</span>
+<span class="nc" id="L62">	return;</span>
+    }
+
+    /**
+     * Creates a new instance of IndexProof for the given scheme, using.
+     * the specified Identity object and setting the internal proof to null.
+     *
+     * @param proof The proof to add to the wrapper object.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */       
+    public IndexProof(Proof proof)
+	throws IllegalArgumentException,
+	       Exception
+<span class="nc" id="L76">    {</span>
+<span class="nc" id="L77">	this.code = proof.getCode();</span>
+<span class="nc" id="L78">	this.proof = proof;</span>
+<span class="nc" id="L79">	return;</span>
+    }        
+
+    /**
+     * Frees the memory allocated for the current IndexProof.
+     */     
+    protected void finalize() {
+<span class="nc" id="L86">	groupsig_proofFree(this.proof.getObject());	</span>
+<span class="nc" id="L87">    }</span>
+
+    /**
+     * Returns the code for this identity's scheme.
+     *
+     * @return The identity scheme.
+     */
+<span class="nc" id="L94">    public int getCode() { return this.code; }</span>
+
+    /**
+     * Returns the internal index
+     *
+     * @return The index.
+     */
+<span class="nc" id="L101">    public long getIndex() { return this.index; }</span>
+
+    /**
+     * Returns the internal rpoof object.
+     *
+     * @return The proof object.
+     */
+<span class="nc" id="L108">    public Proof getProof() { return this.proof; }    </span>
+
+<span class="nc" id="L110">    static { System.loadLibrary(&quot;jnigroupsig&quot;); }</span>
+
+    private static native int groupsig_proofFree(long ptr);
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,3 @@
+repository='https://github.com/herumi/mcl.git'
+module=''
+tag='origin'

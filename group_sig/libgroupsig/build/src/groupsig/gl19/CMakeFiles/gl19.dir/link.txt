@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../../lib/libgl19.a CMakeFiles/gl19.dir/grp_key.c.o CMakeFiles/gl19.dir/mgr_key.c.o CMakeFiles/gl19.dir/mem_key.c.o CMakeFiles/gl19.dir/bld_key.c.o CMakeFiles/gl19.dir/signature.c.o CMakeFiles/gl19.dir/blindsig.c.o CMakeFiles/gl19.dir/setup.c.o CMakeFiles/gl19.dir/join_mem.c.o CMakeFiles/gl19.dir/join_mgr.c.o CMakeFiles/gl19.dir/sign.c.o CMakeFiles/gl19.dir/verify.c.o CMakeFiles/gl19.dir/blind.c.o CMakeFiles/gl19.dir/convert.c.o CMakeFiles/gl19.dir/unblind.c.o CMakeFiles/gl19.dir/identity.c.o
+/usr/bin/ranlib ../../../lib/libgl19.a

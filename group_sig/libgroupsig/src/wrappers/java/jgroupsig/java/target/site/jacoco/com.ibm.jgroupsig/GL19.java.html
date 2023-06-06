@@ -1,0 +1,856 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GL19.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libjgroupsig</a> &gt; <a href="index.source.html" class="el_package">com.ibm.jgroupsig</a> &gt; <span class="el_source">GL19.java</span></div><h1>GL19.java</h1><pre class="source lang-java linenums">package com.ibm.jgroupsig;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.IllegalArgumentException;
+import java.lang.Exception;
+
+/**
+ * Class for GL19 Group Signature schemes.
+ * 
+ * Offers several interfaces to create and operate with group signatures schemes.
+ * It is part of the groupsig package.
+ *
+ * @see com.ibm.jgroupsig.GrpKey
+ * @see com.ibm.jgroupsig.MgrKey
+ * @see com.ibm.jgroupsig.MemKey
+ * @see com.ibm.jgroupsig.BldKey
+ * @see com.ibm.jgroupsig.Gml
+ * @see com.ibm.jgroupsig.Identity
+ * @see com.ibm.jgroupsig.BlindSignature
+ * @see com.ibm.jgroupsig.Signature
+ */
+public class GL19 implements GS {
+
+    /**
+     * The GS scheme code.
+     */
+<span class="nc" id="L28">    public int code = -1;</span>
+
+    /**
+     * The internal JNI pointer.
+     */
+<span class="nc" id="L33">    public long ptr = 0;</span>
+
+    /**
+     * The group key for this GS instance.
+     */
+<span class="nc" id="L38">    private GrpKey grpKey = null;</span>
+
+    /**
+     * GL19 uses two manager keys.
+     */
+<span class="nc" id="L43">    private MgrKey[] mgrKey = null;</span>
+    
+    /**
+     * An alias to mgrkey[0]
+     */
+<span class="nc" id="L48">    private MgrKey issKey = null;</span>
+
+    /**
+     * An alias to mgrkey[1]
+     */    
+<span class="nc" id="L53">    private MgrKey cnvKey = null;</span>
+
+    /**
+     * The GML for this GS instance. Can be null.
+     */
+<span class="nc" id="L58">    public Gml gml = null;    </span>
+
+    /**
+     * Returns a GL19 instance.
+     *
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */    
+    public GL19()
+	throws IllegalArgumentException,
+	       Exception
+<span class="nc" id="L69">    {</span>
+<span class="nc" id="L70">	this.code = GS.GL19_CODE;</span>
+<span class="nc" id="L71">	this.ptr = groupsig_gsGetFromCode(this.code);</span>
+<span class="nc" id="L72">	groupsig_gsInit(this.code, 0);</span>
+<span class="nc" id="L73">    	this.mgrKey = new MgrKey[2];	</span>
+<span class="nc" id="L74">    }</span>
+
+    /**
+     * Frees the memory internally allocated for the current GL19 instance.
+     *
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    @Override
+    public void finalize()
+	throws IllegalArgumentException,
+	       Exception
+    {
+<span class="nc" id="L87">	this.clear();</span>
+<span class="nc" id="L88">    }</span>
+
+    /**
+     * Frees the memory internally allocated for the current GL19 instance.
+     *
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    @Override    
+    public int clear()
+	throws IllegalArgumentException,
+	       Exception
+    {
+<span class="nc" id="L101">	return groupsig_gsClear(this.code);</span>
+    }
+
+    /**
+     * Prints &quot;Hello, World!&quot; in the standard output.
+     */
+    @Override    
+    public void helloWorld() {
+<span class="nc" id="L109">	groupsig_gsHelloWorld();</span>
+<span class="nc" id="L110">	return;</span>
+    }
+
+    /**
+     * Returns True if the scheme identified by the given integer code is supported.
+     * False if not.
+     *
+     * @param  code  The integer code identifying the scheme to test.
+     * @return      True or False.
+     * @exception IllegalArgumentException
+     */
+    @Override    
+    public boolean isSupportedScheme(int code)
+	throws IllegalArgumentException
+    {
+<span class="nc" id="L125">	return groupsig_gsIsSupportedScheme(code);</span>
+    }    
+
+    /**
+     * Returns True if the current instance corresponds to a scheme that needs a
+     * Group Membership List. False if not.
+     *
+     * @return True or False.
+     */    
+    public boolean hasGml() {
+<span class="nc" id="L135">	return groupsig_gsHasGml(this.code);</span>
+    }
+
+    /**
+     * Runs the first step of the GL19 setup process. As a result of a call to 
+     * this method, the grpkey attribute of the current GL19 instance is 
+     * partially filled, and the isskey attribute (which is an alias to 
+     * mgrkey[0]), is also initialied. If grpkey or isskey are not null, they
+     * will be overwritten.
+     *
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    @Override
+    public void setup()
+    	throws IllegalArgumentException,
+    	       Exception
+    {
+
+	long gmlPtr;
+	
+<span class="nc" id="L156">    	this.grpKey = new GrpKey(this.code);</span>
+<span class="nc" id="L157">	this.mgrKey[0] = new MgrKey(this.code);</span>
+<span class="nc" id="L158">	this.gml = null;</span>
+<span class="nc" id="L159">	gmlPtr = 0;</span>
+	
+<span class="nc" id="L161">    	groupsig_gsSetup(this.code,</span>
+<span class="nc" id="L162">			 this.grpKey.getObject(),</span>
+<span class="nc" id="L163">			 this.mgrKey[0].getObject(),</span>
+			 0);
+<span class="nc" id="L165">	this.issKey = this.mgrKey[0];</span>
+<span class="nc" id="L166">	return;</span>
+    }
+
+    /**
+     * Completes the setup process of a GL19 group. The behaviour will depend on
+     * the input parameters and the internal state of the present instance:
+     * 
+     * - If this.grpKey == null and grpKey != null, this is interpreted as a 
+     *   call to setup the Converter. Thus, this.cnvKey = this.mgrKey[1] will
+     *   be initialized properly, and this.grpKey will be set to an upadted 
+     *   (fulfilled) version of grpKey (including the Converter's public key.)
+     *
+     * - If this.grpKey != null and grpKey != null and this.issKey != null, this
+     *   is interpreted as the final call to the Issuer. Thus, this.grpKey is
+     *   reset to the received grpKey instance.
+     *
+     * @param grpKey The group key to initialize/update as described above.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    public void setup(GrpKey grpKey)
+	throws IllegalArgumentException,
+    	       Exception
+    {
+
+	/* If this.grpKey == null, then this is a call to the Converter. */
+<span class="nc bnc" id="L192" title="All 4 branches missed.">	if (this.grpKey == null &amp;&amp; grpKey != null) {</span>
+<span class="nc" id="L193">	    this.grpKey = grpKey;</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">	    if (this.mgrKey[1] == null) this.mgrKey[1] = new MgrKey(this.code);</span>
+
+<span class="nc" id="L196">	    groupsig_gsSetup(this.code,</span>
+<span class="nc" id="L197">			     this.grpKey.getObject(),</span>
+<span class="nc" id="L198">			     this.mgrKey[1].getObject(),</span>
+			     0);
+<span class="nc" id="L200">	    this.cnvKey = this.mgrKey[1];</span>
+	}
+
+	
+	/* If this.grpKey != null and this.issKey != null, then this is
+	   the second call to the Issuer. Just update the group key. */
+<span class="nc bnc" id="L206" title="All 6 branches missed.">	else if (this.grpKey != null &amp;&amp; grpKey != null &amp;&amp; this.issKey != null) {</span>
+	    /* Free the &quot;old&quot; grpKey and make this.grpKey point to the
+	       new one. */
+<span class="nc" id="L209">	    this.grpKey = grpKey;</span>
+	}
+
+	else {
+<span class="nc" id="L213">	    throw new Exception(&quot;Unexpected parameters for GL19 setup.&quot;);</span>
+	}
+	
+<span class="nc" id="L216">    }</span>
+
+    /**
+     * Returns the number of steps (between the Issuer and a prospective member)
+     * needed to complete a membership credential issuance protocol.
+     * 
+     * E.g., a protocol with 4 steps, where the prospective Issuer is the initiator,
+     * would be require the following chain of invocations: Issuer (joinMgr) - 
+     * member (joinMem) - Issuer (joinMgr) - member (joinMem), with increasing
+     * sequence numbers (0 to 3).
+     *
+     * @return      void.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     * @see com.ibm.jgroupsig.GS#getJoinStart
+     */   
+    @Override
+    public int getJoinSeq()
+	throws IllegalArgumentException,
+	       Exception	
+    {
+<span class="nc" id="L237">	return groupsig_gsGetJoinSeq(this.code);</span>
+    }
+
+    /**
+     * Returns who initiates the membership credential issuance protocol in this
+     * instance (of a group signature scheme).
+     *
+     * @return 1 if the prospective member begins, 0 if the Issuer begins.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     * @see com.ibm.jgroupsig.GS#getJoinSeq
+     */   
+    @Override
+    public int getJoinStart()
+	throws IllegalArgumentException,
+	       Exception	
+    {
+<span class="nc" id="L254">	return groupsig_gsGetJoinStart(this.code);</span>
+    }
+
+    /**
+     * Runs the given sequence step of the member side in the membership 
+     * credential issuance protocol.
+     *
+     * @param memKey The member key to setup.
+     * @param seq The sequential step of the protocol to be executed.
+     * @param min (A native pointer to) the message received from the Issuer in
+     *  the previous step, or 0 if this is the first step in the protocol.
+     * @return (A native pointer to) The message produced, which will need to be
+     *  given to the Issuer in the next step (if any).
+     * @exception IllegalArgumentException
+     * @exception Exception
+     * @see com.ibm.jgroupsig.GS#joinMgr
+     */   
+    @Override
+    public long joinMem(MemKey memKey,
+			int seq,
+			long min)
+	throws IllegalArgumentException,
+	       Exception	
+    {
+	long mout;
+<span class="nc" id="L279">	mout = groupsig_gsJoinMem(memKey.getObject(),</span>
+				  seq,
+				  min,
+<span class="nc" id="L282">				  this.grpKey.getObject());</span>
+<span class="nc" id="L283">	return mout;</span>
+    }
+
+    /**
+     * Runs the given sequence step of the Issuer side in the membership 
+     * credential issuance protocol.
+     *
+     * @param seq The sequential step of the protocol to be executed.
+     * @param min (A native pointer to) the message received from the member in
+     *  the previous step, or 0 if this is the first step in the protocol.
+     * @return (A native pointer to) The message produced, which will need to be
+     *  given to the member in the next step (if any).
+     * @exception IllegalArgumentException
+     * @exception Exception
+     * @see com.ibm.jgroupsig.GS#joinMem
+     */
+    @Override    
+    public long joinMgr(int seq,
+			long min)
+	throws IllegalArgumentException,
+	       Exception	
+    {
+	long mout;
+
+<span class="nc bnc" id="L307" title="All 2 branches missed.">	if (this.gml != null) {</span>
+<span class="nc" id="L308">	    mout = groupsig_gsJoinMgr(this.gml.getObject(),</span>
+<span class="nc" id="L309">				      this.issKey.getObject(),</span>
+				      seq,
+				      min,
+<span class="nc" id="L312">				      this.grpKey.getObject());</span>
+	} else {
+<span class="nc" id="L314">	    mout = groupsig_gsJoinMgr(0,</span>
+<span class="nc" id="L315">				      this.issKey.getObject(),</span>
+				      seq,
+				      min,
+<span class="nc" id="L318">				      this.grpKey.getObject());</span>
+
+	}
+
+<span class="nc" id="L322">	return mout;</span>
+    }
+
+    /**
+     * Signs the message defined by the given byte array, using the given member
+     * key.
+     *
+     * @param msg An array of bytes to be signed.
+     * @param memKey The member key to use for signing.
+     * @return A new Signature instance with the produced signature.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    @Override    
+    public Signature sign(byte[] msg,
+			   MemKey memKey)
+	 throws IllegalArgumentException,
+		Exception	 
+    {
+<span class="nc" id="L341">	Signature sig = new Signature(this.code);</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">	if(groupsig_gsSign(sig.getObject(),</span>
+			   msg,
+			   msg.length,
+<span class="nc" id="L345">			   memKey.getObject(),</span>
+<span class="nc" id="L346">			   this.grpKey.getObject(),</span>
+			   0) == 1)
+<span class="nc" id="L348">	    throw new Exception(&quot;Error signing.&quot;);</span>
+<span class="nc" id="L349">	return sig;</span>
+    }
+
+    /**
+     * Signs the message defined by the given byte array, using the given member
+     * key.
+     * Used in schemes that require additional input (e.g., s can be used to seed
+     * a pseudo-random number generator or indicate state.)
+     *
+     * @param msg An array of bytes to be signed.
+     * @param memKey The member key to use for signing.
+     * @param s Additional input (scheme-dependent).
+     * @return A new Signature instance with the produced signature.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    @Override    
+    public Signature sign(byte[] msg,
+			  MemKey memKey,
+			  int s)
+	throws IllegalArgumentException,
+	       Exception
+    {
+<span class="nc" id="L372">	Signature sig = new Signature(this.code);</span>
+<span class="nc bnc" id="L373" title="All 2 branches missed.">	if(groupsig_gsSign(sig.getObject(),</span>
+			   msg,
+			   msg.length,
+<span class="nc" id="L376">			   memKey.getObject(),</span>
+<span class="nc" id="L377">			   this.grpKey.getObject(),</span>
+			   s) == 1)
+<span class="nc" id="L379">	    throw new Exception(&quot;Error signing.&quot;);</span>
+<span class="nc" id="L380">	return sig;</span>
+    }
+
+    /**
+     * Signs the message defined by the given String, using the given member
+     * key. String is encoded as an utf8 byte array.
+     *
+     * @param msg The string to sign.
+     * @param memKey The member key to use for signing.
+     * @return A new Signature instance with the produced signature.
+     * @exception UnsupportedEncodingException
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    @Override    
+    public Signature sign(String msg,
+			  MemKey memKey)
+	throws UnsupportedEncodingException,
+	       IllegalArgumentException,
+	       Exception
+    {
+
+<span class="nc" id="L402">	Signature sig = new Signature(this.code);</span>
+<span class="nc" id="L403">	final byte[] utf8Bytes = msg.getBytes(&quot;UTF-8&quot;);</span>
+<span class="nc bnc" id="L404" title="All 2 branches missed.">	if(groupsig_gsSign(sig.getObject(),</span>
+			   utf8Bytes,
+			   utf8Bytes.length,
+<span class="nc" id="L407">			   memKey.getObject(),</span>
+<span class="nc" id="L408">			   this.grpKey.getObject(),</span>
+			   0) == 1)
+<span class="nc" id="L410">	    throw new Exception(&quot;Error signing.&quot;);</span>
+<span class="nc" id="L411">	return sig;</span>
+	
+    }
+
+    /**
+     * Signs the message defined by the given String, using the given member
+     * key. String is encoded as an utf8 byte array.
+     * Used in schemes that require additional input (e.g., s can be used to seed
+     * a pseudo-random number generator or indicate state.)
+     *
+     * @param msg The string to sign.
+     * @param memKey The member key to use for signing.
+     * @param s Additional input (scheme-dependent).
+     * @return A new Signature instance with the produced signature.
+     * @exception UnsupportedEncodingException
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    @Override    
+    public Signature sign(String msg,
+			  MemKey memKey,
+			  int s)
+	throws UnsupportedEncodingException,
+	       IllegalArgumentException,
+	       Exception	       
+    {
+
+<span class="nc" id="L438">	Signature sig = new Signature(this.code);</span>
+<span class="nc" id="L439">	final byte[] utf8Bytes = msg.getBytes(&quot;UTF-8&quot;);</span>
+<span class="nc bnc" id="L440" title="All 2 branches missed.">	if(groupsig_gsSign(sig.getObject(),</span>
+			   utf8Bytes,
+			   utf8Bytes.length,
+<span class="nc" id="L443">			   memKey.getObject(),</span>
+<span class="nc" id="L444">			   this.grpKey.getObject(),</span>
+			   s) == 1)
+<span class="nc" id="L446">	    throw new Exception(&quot;Error signing.&quot;);</span>
+<span class="nc" id="L447">	return sig;</span>
+	
+    }
+
+    /**
+     * Verifies if sig is a valid signature for the byte array msg.
+     *
+     * @param sig The signature instance.
+     * @param msg The message, in byte array format.
+     * @return True if the signature is valid, False otherwise.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    @Override    
+    public boolean verify(Signature sig,
+			  byte[] msg)
+	throws IllegalArgumentException,
+	       Exception
+    {
+<span class="nc" id="L466">	return groupsig_gsVerify(sig.getObject(),</span>
+				 msg,
+				 msg.length,
+<span class="nc" id="L469">				 this.grpKey.getObject());</span>
+    }
+
+    /**
+     * Verifies if sig is a valid signature for the String msg.
+     *
+     * @param sig The signature instance.
+     * @param msg The message, in string format.
+     * @return True if the signature is valid, False otherwise.
+     * @exception UnsupportedEncodingException
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */
+    @Override    
+    public boolean verify(Signature sig,
+			  String msg)
+	throws UnsupportedEncodingException,
+	       IllegalArgumentException,
+	       Exception	       
+    {
+	
+<span class="nc" id="L490">	final byte[] utf8Bytes = msg.getBytes(&quot;UTF-8&quot;);</span>
+<span class="nc" id="L491">	return groupsig_gsVerify(sig.getObject(),</span>
+				 utf8Bytes,
+				 utf8Bytes.length,
+<span class="nc" id="L494">				 this.grpKey.getObject());</span>
+	
+    }
+
+    public IndexProof open(Signature sig)
+	throws IllegalArgumentException,
+	       Exception {
+<span class="nc" id="L501">	throw new Exception(&quot;Functionality not supported in GL19.&quot;);</span>
+    }
+
+    public boolean openVerify(IndexProof indexProof,
+			      Signature sig)
+	throws UnsupportedEncodingException,
+	       IllegalArgumentException,
+	       Exception	       
+    {
+<span class="nc" id="L510">	throw new Exception(&quot;Functionality not supported in GL19.&quot;);		</span>
+    }      
+
+    /**
+     * For schemes supporting blinded conversion, encrypts the
+     * given signature using bldkey.
+     *
+     * @param bldKey The blinding key to use for encryption.
+     * @param sig The signature to blind.
+     * @param msg The message, in string format.
+     * @return The blinded signature.
+     * @exception UnsupportedEncodingException
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */       
+    @Override
+    public BlindSignature blind(BldKey bldKey,
+				Signature sig,
+				String msg)
+	throws UnsupportedEncodingException,
+	       IllegalArgumentException,
+	       Exception	       
+    {
+
+<span class="nc" id="L534">	BlindSignature bSig = new BlindSignature(this.code);       </span>
+<span class="nc" id="L535">	final byte[] utf8Bytes = msg.getBytes(&quot;UTF-8&quot;);</span>
+	
+<span class="nc bnc" id="L537" title="All 2 branches missed.">	if(groupsig_gsBlind(bSig.getObject(),</span>
+<span class="nc" id="L538">			    bldKey.getObject(),</span>
+<span class="nc" id="L539">			    this.grpKey.getObject(),</span>
+<span class="nc" id="L540">			    sig.getObject(),</span>
+			    utf8Bytes,
+			    utf8Bytes.length) == 1)
+<span class="nc" id="L543">	    throw new Exception(&quot;Error blinding.&quot;);</span>
+<span class="nc" id="L544">	return bSig;</span>
+    }
+
+    /**
+     * For schemes supporting blinded conversion, encrypts the
+     * given signature using bldkey.
+     *
+     * @param bldKey The blinding key to use for encryption.
+     * @param sig The signature to blind.
+     * @param msg The message, in string format.
+     * @return The blinded signature.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */           
+    @Override
+    public BlindSignature blind(BldKey bldKey,
+				Signature sig,
+				byte[] msg)
+	throws IllegalArgumentException,
+	       Exception
+    {
+<span class="nc" id="L565">	BlindSignature bSig = new BlindSignature(this.code);</span>
+<span class="nc bnc" id="L566" title="All 2 branches missed.">	if(groupsig_gsBlind(bSig.getObject(),</span>
+<span class="nc" id="L567">			    bldKey.getObject(),</span>
+<span class="nc" id="L568">			    this.grpKey.getObject(),</span>
+<span class="nc" id="L569">			    sig.getObject(),</span>
+			    msg,
+			    msg.length) == 1)
+<span class="nc" id="L572">	    throw new Exception(&quot;Error blinding.&quot;);</span>
+<span class="nc" id="L573">	return bSig;</span>
+    }
+
+    /**
+     * For schemes supporting blinded conversion, converts the given
+     * set of blinded signatures.
+     *
+     * @param bSigs The array of blinded signatures to convert.
+     * @param bldKey The public key used for blinding.
+     * @return An array containing the converted signatures.
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */       
+    @Override
+    public BlindSignature[] convert(BlindSignature[] bSigs,
+				    BldKey bldKey)
+	throws IllegalArgumentException,
+	       Exception
+    {	
+<span class="nc" id="L592">	BlindSignature cSigs[] = new BlindSignature[bSigs.length];	</span>
+<span class="nc" id="L593">	long cSigsArray[] = new long[bSigs.length];</span>
+<span class="nc" id="L594">	long bSigsArray[] = new long[bSigs.length];</span>
+
+<span class="nc bnc" id="L596" title="All 2 branches missed.">	for (int i=0; i&lt;bSigs.length; i++) {</span>
+<span class="nc" id="L597">	    cSigs[i] = new BlindSignature(this.code);</span>
+<span class="nc" id="L598">	    cSigsArray[i] = cSigs[i].getObject();</span>
+<span class="nc" id="L599">	    bSigsArray[i] = bSigs[i].getObject();</span>
+	}
+	
+<span class="nc bnc" id="L602" title="All 2 branches missed.">        if(groupsig_gsConvert(cSigsArray,</span>
+			      bSigsArray,
+			      bSigs.length,
+<span class="nc" id="L605">			      this.grpKey.getObject(),</span>
+<span class="nc" id="L606">			      this.cnvKey.getObject(),</span>
+<span class="nc" id="L607">			      bldKey.getObject(),</span>
+			      null,
+			      0) == -1) {
+<span class="nc" id="L610">	    throw new Exception(&quot;Error converting.&quot;);</span>
+	}
+
+<span class="nc bnc" id="L613" title="All 2 branches missed.">	for (int i=0; i&lt;bSigs.length; i++) {</span>
+<span class="nc" id="L614">	    cSigs[i].setObject(cSigsArray[i]);</span>
+	}
+	
+<span class="nc" id="L617">	return cSigs;</span>
+    }    
+
+    /**
+     * For schemes supporting blinded conversion, unblinds the given
+     * blindly converted signature.
+     *
+     * @param cSig The blindly converted signatures to unblind.
+     * @param bldKey The keypair used for blinding.
+     * @return The produced identity
+     * @exception UnsupportedEncodingException
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */    
+    @Override
+    public Identity unblind(BlindSignature cSig,
+			    BldKey bldKey)
+	throws UnsupportedEncodingException,
+	       IllegalArgumentException,
+	       Exception	       
+    {
+
+	long grpKey;
+	
+<span class="nc" id="L641">	Identity id = new Identity(this.code);</span>
+<span class="nc bnc" id="L642" title="All 2 branches missed.">	if (this.grpKey == null) grpKey = 0;</span>
+<span class="nc" id="L643">	else grpKey = this.grpKey.getObject();</span>
+<span class="nc" id="L644">	byte[] msg = groupsig_gsUnblind(id.getObject(),</span>
+					0,
+<span class="nc" id="L646">					cSig.getObject(),</span>
+					grpKey,
+<span class="nc" id="L648">					bldKey.getObject());</span>
+
+<span class="nc bnc" id="L650" title="All 2 branches missed.">	if (msg == null) throw new Exception(&quot;Error unblinding.&quot;);</span>
+<span class="nc bnc" id="L651" title="All 2 branches missed.">	if (msg != null) id.setMsg(msg);</span>
+<span class="nc" id="L652">	return id;</span>
+    }    
+
+    /**
+     * For schemes supporting blinded conversion, unblinds the given
+     * blindly converted signature.
+     *
+     * @param sig The signature that was originally blinded.
+     * @param cSig The blindly converted signatures to unblind.
+     * @param bldKey The keypair used for blinding.
+     * @return The produced identity.
+     * @exception UnsupportedEncodingException
+     * @exception IllegalArgumentException
+     * @exception Exception
+     */    
+    @Override
+    public Identity unblind(Signature sig,
+			    BlindSignature cSig,
+			    BldKey bldKey)
+	throws UnsupportedEncodingException,
+	       IllegalArgumentException,
+	       Exception	       
+    {
+
+<span class="nc" id="L676">	Identity id = new Identity(this.code);</span>
+<span class="nc" id="L677">	byte[] msg = groupsig_gsUnblind(id.getObject(),</span>
+<span class="nc" id="L678">					sig.getObject(),</span>
+<span class="nc" id="L679">					cSig.getObject(),</span>
+<span class="nc" id="L680">					this.grpKey.getObject(),</span>
+<span class="nc" id="L681">					bldKey.getObject());</span>
+
+<span class="nc bnc" id="L683" title="All 2 branches missed.">	if (msg == null) throw new Exception(&quot;Error unblinding.&quot;);</span>
+<span class="nc bnc" id="L684" title="All 2 branches missed.">	if (msg != null) id.setMsg(msg);</span>
+<span class="nc" id="L685">	return id;</span>
+    }
+
+    /**
+     * Returns the group key of the current GL19 instance.
+     *
+     * @return The group key of the current GL19 instance.
+     */     
+    public GrpKey getGrpKey() {
+<span class="nc" id="L694">	return this.grpKey;</span>
+    }
+
+    /**
+     * Sets the group's public key.
+     * Warning: This should only be used on groups that have been initialized
+     * but not setup.
+     *
+     * @param grpKey The group key to set.
+     */
+    public void setGrpKey(GrpKey grpKey) {
+<span class="nc" id="L705">	this.grpKey = grpKey;</span>
+<span class="nc" id="L706">    }</span>
+
+    /**
+     * Returns the manager key of the current GL19 instance.
+     *
+     * @return The manager keys of the current GL19 instance.
+     */     
+    public MgrKey[] getMgrKey() {
+<span class="nc" id="L714">	return this.mgrKey;</span>
+    }
+
+    /**
+     * Sets the group's manager key.
+     * Warning: This should only be used on groups that have been initialized
+     * but not setup.
+     *
+     * @param mgrKey The manager keys to set.
+     */
+    public void setMgrKey(MgrKey[] mgrKey) {
+<span class="nc" id="L725">	this.mgrKey = mgrKey;</span>
+<span class="nc" id="L726">    }</span>
+
+    /**
+     * Returns the current instance's issuer key.
+     *
+     * @return The issuer key of the current GL19 instance.
+     */
+    public MgrKey getIssKey() {
+<span class="nc" id="L734">	return this.issKey;</span>
+    }
+
+    /**
+     * Sets the group's issuer key.
+     * Warning: This should only be used on groups that have been initialized
+     * but not setup.
+     *
+     * @param issKey The manager key to set.
+     */
+    public void setIssKey(MgrKey issKey) {
+<span class="nc" id="L745">	this.mgrKey[0] = issKey;</span>
+<span class="nc" id="L746">	this.issKey = issKey;</span>
+<span class="nc" id="L747">    }</span>
+
+    /**
+     * Returns the current instance's converter key.
+     *
+     * @return The converter key of the current GL19 instance.
+     */
+    public MgrKey getCnvKey() {
+<span class="nc" id="L755">	return this.cnvKey;</span>
+    }
+
+    /**
+     * Sets the group's converter key.
+     * Warning: This should only be used on groups that have been initialized
+     * but not setup.
+     *
+     * @param cnvKey The manager key to set.
+     */
+    public void setCnvKey(MgrKey cnvKey) {
+<span class="nc" id="L766">	this.mgrKey[1] = cnvKey;</span>
+<span class="nc" id="L767">	this.cnvKey = cnvKey;</span>
+<span class="nc" id="L768">    }    </span>
+    
+    /**
+     * Returns the code of the current GL19 instance.
+     *
+     * @return The code of the current GL19 instance.
+     */         
+    @Override
+    public int getCode() {
+<span class="nc" id="L777">    	return this.code;</span>
+    }
+
+    /**
+     * Returns the internal native pointer to the current GL19 instance.
+     *
+     * @return The pointer to the current GL19 instance.
+     */         
+    @Override
+    public long getGroup() {
+<span class="nc" id="L787">    	return this.ptr;</span>
+    }
+
+<span class="nc" id="L790">    static { System.loadLibrary(&quot;jnigroupsig&quot;); }</span>
+    
+    private static native int groupsig_gsHelloWorld();
+    private static native boolean groupsig_gsIsSupportedScheme(int code);
+    private static native int groupsig_gsGetCodeFromStr(String str);
+    private static native long groupsig_gsGetFromStr(String str);
+    private static native long groupsig_gsGetFromCode(int code);
+    private static native int groupsig_gsInit(int code,
+					      int seed);
+    private static native int groupsig_gsClear(int code);
+    private static native boolean groupsig_gsHasGml(int code);
+    private static native int groupsig_gsSetup(int code,
+    					       long grpKeyPtr,
+    					       long mgrKeyPtr,
+    					       long gmlPtr);
+    private static native int groupsig_gsGetJoinSeq(int code);
+    private static native int groupsig_gsGetJoinStart(int code);
+    private static native long groupsig_gsJoinMem(long memKeyPtr,
+    						  int seq,
+    						  long minPtr,
+    						  long grpKeyPtr);
+    private static native long groupsig_gsJoinMgr(long gmlPtr,
+    						  long mgrKeyPtr,
+    						  int seq,
+    						  long minPtr,
+    						  long grpKeyPtr);
+    private static native int groupsig_gsSign(long sigPtr,
+    					      byte[] msg,
+    					      int msgLen,
+    					      long memKeyPtr,
+    					      long grpKeyPtr,
+    					      int seed);
+    private static native boolean groupsig_gsVerify(long sigPtr,
+    						    byte[] msg,
+    						    int msgLen,
+    						    long grpKeyPtr);
+    private static native long groupsig_gsOpen(long proofPtr,
+					       long crlPtr,
+					       long sigPtr,
+					       long grpKeyPtr,
+					       long mgrKeyPtr,
+					       long gmlPtr);
+    private static native boolean groupsig_gsOpenVerify(long proofPtr,
+							long sigPtr,
+							long grpKeyPtr);        
+    private static native int groupsig_gsBlind(long bSigPtr,
+    					       long bldKeyPtr,
+    					       long grpKeyPtr,
+    					       long sigPtr,
+    					       byte[] msg,
+    					       int msgLen);
+    private static native int groupsig_gsConvert(long[] cSigsPtr,
+    						 long[] bSigsPtr,
+    						 int bSigsLen,
+    						 long grpKeyPtr,
+    						 long mgrKeyPtr,
+    						 long bldKeyPtr,
+    						 byte[] msg,
+    						 int msgLen);
+    private static native byte[] groupsig_gsUnblind(long idPtr,
+    						    long sigPtr,
+    						    long bSigPtr,
+    						    long grpKeyPtr,
+    						    long bldKeyPtr);    
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
