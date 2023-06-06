@@ -1,0 +1,7 @@
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+brew "cmake"
+brew "openssl@1.1"
+brew "python@3.11"
+brew "llvm"
