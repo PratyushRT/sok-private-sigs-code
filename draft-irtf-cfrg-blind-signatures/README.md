@@ -1,5 +1,11 @@
 # RSA Blind Signatures
 
+### To run SoK experiments:
+```bash
+> cd poc
+> python3 rsabssa.py
+```
+
 This is the working area for the individual Internet-Draft, "RSA Blind Signatures".
 
 * [Editor's Copy](https://cfrg.github.io/draft-irtf-cfrg-blind-signatures/#go.draft-irtf-cfrg-rsa-blind-signatures.html)
