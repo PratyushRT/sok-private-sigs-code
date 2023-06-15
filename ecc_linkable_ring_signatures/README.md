@@ -1,4 +1,4 @@
-# Linkable Spontaneous Anonymous Group Signature with Elliptic Curve Cryptograhpy.
+# Linkable Spontaneous Anonymous Group Signature with Elliptic Curve Cryptography.
 
 
 Minimalistic pythonic implementation of a [linkable spontaneously anonymous group (LSAG)
