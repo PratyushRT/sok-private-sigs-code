@@ -1,6 +1,9 @@
 # Linkable Spontaneous Anonymous Group Signature with Elliptic Curve Cryptography.
 
-
+### To run SoK experiments:
+```bash
+> python3 exp.py
+```
 Minimalistic pythonic implementation of a [linkable spontaneously anonymous group (LSAG)
 signature scheme](https://eprint.iacr.org/2004/027.pdf) over elliptic curves.
 
