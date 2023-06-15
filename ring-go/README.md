@@ -1,6 +1,12 @@
 # ring-go
 Implementation of linkable ring signatures using elliptic curve crypto in pure Go. It supports ring signatures over both ed25519 and secp256k1.
 
+### To run SoK experiments:
+```bash
+> cd examples
+> go run main.go
+```
+
 ### requirements
 go 1.19
 
